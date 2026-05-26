@@ -1,0 +1,25 @@
+{
+  "name": "muse-marketplace-be",
+  "version": "1.0.0",
+  "description": "Muse BE application",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node --watch server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/davidatencia/muse-marketplace-BE.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/davidatencia/muse-marketplace-BE/issues"
+  },
+  "homepage": "https://github.com/davidatencia/muse-marketplace-BE#readme",
+  "dependencies": {
+    "express": "5.2.1",
+    "zod": "4.4.3"
+  }
+}

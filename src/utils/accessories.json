@@ -1,0 +1,98 @@
+[
+  {
+    "id": "af711ca8-895e-43b5-bd8d-9d266a45dcb7",
+    "name": "Correa de cuero",
+    "description": "Correa ajustable de cuero genuino, resistente y con hebilla metálica.",
+    "img": "/images/accessories/correa-cuero.jpg",
+    "category": "Ropa",
+    "handmade": false,
+    "available": true,
+    "highlighted": false,
+    "price": 29.99,
+    "stock": 15
+  },
+  {
+    "id": "4aab64f6-73bd-4f68-8be6-b501a71ec995",
+    "name": "Gorra clásica",
+    "description": "Gorra unisex con visera curva y logo bordado.",
+    "img": "/images/accessories/gorra.jpg",
+    "category": "Ropa",
+    "handmade": false,
+    "available": true,
+    "highlighted": false,
+    "price": 19.99,
+    "stock": 30
+  },
+  {
+    "id": "527346ca-2445-4e00-93ec-b3980249b708",
+    "name": "Bolso bandolera",
+    "description": "Bolso pequeño con cierre y correa ajustable, ideal para uso diario.",
+    "img": "/images/accessories/bolso-bandolera.jpg",
+    "category": "Bolsos",
+    "handmade": false,
+    "available": true,
+    "highlighted": false,
+    "price": 49.99,
+    "stock": 10
+  },
+  {
+    "id": "c018fb00-4f52-4bcf-ba48-8a9c6d14e9eb",
+    "name": "Pendientes minimal",
+    "description": "Juego de pendientes de acero inoxidable con diseño minimalista.",
+    "img": "/images/accessories/pendientes.jpg",
+    "category": "Joyería",
+    "handmade": false,
+    "available": true,
+    "highlighted": true,
+    "price": 14.99,
+    "stock": 50
+  },
+  {
+    "id": "777d84be-1929-4615-b221-e154491799e4",
+    "name": "Bufanda de lana",
+    "description": "Bufanda tejida a mano, cálida y suave al tacto.",
+    "img": "/images/accessories/bufanda.jpg",
+    "category": "Ropa",
+    "handmade": true,
+    "available": true,
+    "highlighted": true,
+    "price": 39.99,
+    "stock": 8
+  },
+  {
+    "id": "a569c07b-2147-4252-bf7c-ca3bb008b7c6",
+    "name": "Reloj deportivo",
+    "description": "Reloj con cronómetro, resistente al agua y correa de silicona.",
+    "img": "/images/accessories/reloj-deportivo.jpg",
+    "category": "Accesorios Tecnológicos",
+    "handmade": false,
+    "available": true,
+    "highlighted": false,
+    "price": 89.99,
+    "stock": 12
+  },
+  {
+    "id": "6bd89a0f-c1bd-4fdc-b70f-5db61072f807",
+    "name": "Gafas de sol",
+    "description": "Gafas con protección UV y montura ligera.",
+    "img": "/images/accessories/gafas-sol.jpg",
+    "category": "Ropa",
+    "handmade": false,
+    "available": true,
+    "highlighted": false,
+    "price": 34.99,
+    "stock": 20
+  },
+  {
+    "id": "0dc78ef1-38ab-461a-83cb-569424f7c337",
+    "name": "Llaveros artesanales",
+    "description": "Set de llaveros hechos a mano con detalles únicos.",
+    "img": "/images/accessories/llaveros.jpg",
+    "category": "Complementos",
+    "handmade": true,
+    "available": true,
+    "highlighted": true,
+    "price": 12.99,
+    "stock": 25
+  }
+]
