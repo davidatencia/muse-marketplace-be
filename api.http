@@ -58,12 +58,44 @@ DELETE http://localhost:3000/accessories/57f24da8-595a-11f1-8925-c6266cac1a7d
 http://localhost:3000/accessory-categories
 
 ### update an existing accessory category
-PUT http://localhost:3000/accessory-categories/2
+PUT http://localhost:3000/accessory-categories/8
 Content-Type: application/json
 
   {
-    "name": 1
+    "name": "Pulseras"
+  }
+
+### create a new accessory category
+POST http://localhost:3000/accessory-categories
+Content-Type: application/json
+
+  {
+    "name": "Collares"
   }
 
 ### delete an existing accessory category
-DELETE http://localhost:3000/accessory-categories/1
+DELETE http://localhost:3000/accessory-categories/3
+
+
+### get all accessory materials
+http://localhost:3000/accessory-materials
+
+
+### create a new accessory material
+POST http://localhost:3000/accessory-materials
+Content-Type: application/json
+
+  {
+    "name": "Murano"
+  }
+
+### update an existing accessory material
+PUT http://localhost:3000/accessory-materials/8
+Content-Type: application/json
+
+  {
+    "name": "Cuero"
+  }
+
+### delete an existing accessory material
+DELETE http://localhost:3000/accessory-materials/5

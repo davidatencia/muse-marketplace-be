@@ -92,7 +92,8 @@ export default class AccessoryCategoriesController {
 
   static async validateCategoryExistence(id, res) {
     const existing = await AccessoryCategoriesModel.getById(id);
-    if (!existing) {
+    console.log('Existing category:', existing);
+    if (!existing.length) {
       res.status(404).json({ message: 'Accessory category not found' });
       return false;
     }

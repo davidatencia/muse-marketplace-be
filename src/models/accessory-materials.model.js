@@ -1,53 +1,53 @@
 import dbConnection from '../config/db.js';
 
-export default class AccessoryCategoriesModel {
+export default class AccessoryMaterialsModel {
   static async getAll() {
-    const [categories] = await dbConnection.query(
+    const [materials] = await dbConnection.query(
       `SELECT
             id,
             name
-        FROM categories
+        FROM materials
         ORDER BY name;`,
     );
-    return categories || [];
+    return materials || [];
   }
 
   static async getById(id) {
-    const [category] = await dbConnection.query(
+    const [material] = await dbConnection.query(
       `SELECT
             id,
             name
-        FROM categories
+        FROM materials
         WHERE id = ?;`,
       [id],
     );
-    return category;
+    return material;
   }
 
   static async create(name) {
     const [result] = await dbConnection.query(
-      `INSERT INTO categories (name) VALUES (?);`,
+      `INSERT INTO materials (name) VALUES (?);`,
       [name],
     );
     return { id: result.insertId, name };
   }
 
   static async update(id, name) {
-    await dbConnection.query(`UPDATE categories SET name = ? WHERE id = ?;`, [
+    await dbConnection.query(`UPDATE materials SET name = ? WHERE id = ?;`, [
       name,
       id,
     ]);
   }
 
-  static async categoryInUse(id) {
+  static async materialInUse(id) {
     const [[{ count }]] = await dbConnection.query(
-      `SELECT COUNT(*) AS count FROM accessories WHERE category_id = ?;`,
+      `SELECT COUNT(*) AS count FROM accessories WHERE material_id = ?;`,
       [id],
     );
     return count > 0;
   }
 
   static delete(id) {
-    return dbConnection.query(`DELETE FROM categories WHERE id = ?;`, [id]);
+    return dbConnection.query(`DELETE FROM materials WHERE id = ?;`, [id]);
   }
 }
