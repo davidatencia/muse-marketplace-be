@@ -12,14 +12,17 @@
     "type": "git",
     "url": "git+https://github.com/davidatencia/muse-marketplace-BE.git"
   },
-  "author": "",
+  "author": "David Atencia",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/davidatencia/muse-marketplace-BE/issues"
   },
   "homepage": "https://github.com/davidatencia/muse-marketplace-BE#readme",
   "dependencies": {
+    "dotenv": "17.4.2",
     "express": "5.2.1",
+    "morgan": "1.10.1",
+    "mysql2": "3.22.3",
     "zod": "4.4.3"
   }
 }

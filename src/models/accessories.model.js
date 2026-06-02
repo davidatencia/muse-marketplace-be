@@ -1,50 +1,190 @@
-import { randomUUID } from 'node:crypto';
 import { readJSON } from '../utils/readJSON.js';
-
-const accessories = readJSON('../utils/accessories.json');
+import dbConnection from '../config/db.js';
 
 export default class AccessoryModel {
   static async getAll() {
-    return await accessories;
+    const [accessories] = await dbConnection.query(
+      `SELECT
+          BIN_TO_UUID(a.id) AS id,
+          a.name,
+          a.description,
+          a.img,
+          a.handmade,
+          a.highlighted,
+          a.price,
+          a.stock,
+          a.rating,
+          c.name AS category,
+      IF(COUNT(m.id) > 0, JSON_ARRAYAGG(m.name), JSON_ARRAY()) AS materials
+      FROM accessories a
+      LEFT JOIN accessory_materials am
+          ON a.id = am.accessory_id
+      LEFT JOIN materials m
+          ON am.material_id = m.id
+      JOIN categories c
+          ON a.category_id = c.id
+      GROUP BY
+          a.id,
+          a.name,
+          a.description,
+          a.img,
+          a.handmade,
+          a.highlighted,
+          a.price,
+          a.stock,
+          a.rating,
+          c.name
+      ORDER BY a.name;`,
+    );
+
+    return accessories || [];
   }
 
   static async getById(id) {
-    return await accessories.find((accessory) => accessory.id === id);
+    const [accessories] = await dbConnection.query(
+      `SELECT
+          BIN_TO_UUID(a.id) AS id,
+          a.name,
+          a.description,
+          a.img,
+          a.handmade,
+          a.highlighted,
+          a.price,
+          a.stock,
+          a.rating,
+          c.name AS category,
+      IF(COUNT(m.id) > 0, JSON_ARRAYAGG(m.name), JSON_ARRAY()) AS materials
+      FROM accessories a
+      LEFT JOIN accessory_materials am
+          ON a.id = am.accessory_id
+      LEFT JOIN materials m
+          ON am.material_id = m.id
+      JOIN categories c
+          ON a.category_id = c.id
+      WHERE a.id = UUID_TO_BIN(?)
+      GROUP BY
+          a.id,
+          a.name,
+          a.description,
+          a.img,
+          a.handmade,
+          a.highlighted,
+          a.price,
+          a.stock,
+          a.rating,
+          c.name
+      ORDER BY a.name;`,
+      [id],
+    );
+    return accessories;
   }
 
   static async create(data) {
-    const newAccessories = data.map((item) => ({
-      id: randomUUID(),
-      ...item,
-    }));
+    const items = await Promise.all(
+      data.map(async (item) => {
+        const [[{ uuid }]] = await dbConnection.query('SELECT UUID() AS uuid;');
+        return { id: uuid, ...item };
+      }),
+    );
 
-    return await newAccessories;
+    const placeholders = items
+      .map(() => '(UUID_TO_BIN(?), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)')
+      .join(', ');
+
+    const values = items.flatMap(
+      ({
+        id,
+        category_id,
+        name,
+        description,
+        img,
+        handmade,
+        available,
+        highlighted,
+        price,
+        stock,
+        rating,
+      }) => [
+        id,
+        category_id,
+        name,
+        description,
+        img,
+        handmade,
+        available,
+        highlighted,
+        price,
+        stock,
+        rating ?? null,
+      ],
+    );
+
+    await dbConnection.query(
+      `INSERT INTO accessories (id, category_id, name, description, img, handmade, available, highlighted, price, stock, rating) VALUES ${placeholders}`,
+      values,
+    );
+
+    return items;
   }
 
   static async update(id, data) {
-    const index = accessories.findIndex(
-      (accessory) => accessory.id === id,
+    const {
+      category_id,
+      name,
+      description,
+      img,
+      handmade,
+      available,
+      highlighted,
+      price,
+      stock,
+      rating,
+    } = data;
+
+    const [result] = await dbConnection.query(
+      'UPDATE accessories SET category_id = ?, name = ?, description = ?, img = ?, handmade = ?, available = ?, highlighted = ?, price = ?, stock = ?, rating = ? WHERE id = UUID_TO_BIN(?)',
+      [
+        category_id,
+        name,
+        description,
+        img,
+        handmade,
+        available,
+        highlighted,
+        price,
+        stock,
+        rating ?? null,
+        id,
+      ],
     );
 
-    if (index === -1) {
-      return null;
-    }
+    return data;
+  }
 
-    accessories[index] = { ...accessories[index], ...data };
+  static async partialUpdate(id, data) {
+    const fields = Object.keys(data)
+      .map((key) => `${key} = ?`)
+      .join(', ');
 
-    return await accessories[index];
+    const values = Object.values(data).map((value) =>
+      value === undefined ? null : value,
+    );
+
+    values.push(id);
+
+    const [result] = await dbConnection.query(
+      `UPDATE accessories SET ${fields} WHERE id = UUID_TO_BIN(?)`,
+      values,
+    );
+
+    return data;
   }
 
   static async delete(id) {
-    const index = accessories.findIndex(
-      (accessory) => accessory.id === id,
+    const [result] = await dbConnection.query(
+      'DELETE FROM accessories WHERE id = UUID_TO_BIN(?)',
+      [id],
     );
-
-    if (index === -1) {
-      return false;
-    }
-
-    const deletedAccessory = accessories.splice(index, 1);
 
     return true;
   }

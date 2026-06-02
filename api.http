@@ -2,7 +2,7 @@
 http://localhost:3000/accessories
 
 ### Get a specific accessory
-http://localhost:3000/accessories/0dc78ef1-38ab-461a-83cb-569424f7c337
+http://localhost:3000/accessories/67d91ccc-5943-11f1-accf-f0736fd2cf99
 
 ### Add new accessories
 POST http://localhost:3000/accessories
@@ -12,40 +12,58 @@ Content-Type: application/json
   {
     "name": "Aretes de Plata",
     "description": "Aretes de plata con diseño elegante, perfectos para cualquier ocasión.",
-    "img": "/images/accessories/aretes-plata.jpg",
-    "category": "Complementos",
-    "handmade": true,
+    "img": "https://co.anabuendiaofficial.com/cdn/shop/products/EarringCoprisilver-arete-plata-filigrana-2.jpg?v=1612899945&width=600",
+    "category_id": 3,
+    "handmade": false,
     "available": true,
     "highlighted": true,
     "price": 12.99,
-    "stock": 25
+    "stock": 25,
+    "rating": 4
   }
 ]
 
 ### Update an existing accessory
-PUT http://localhost:3000/accessories/4aab64f6-73bd-4f68-8be6-b501a71ec995
+PUT http://localhost:3000/accessories/67d91ccc-5943-11f1-accf-f0736fd2cf99
 Content-Type: application/json
 
   {
-    "name": "Correa de cuerooooo",
-    "description": "Correa ajustable de cuero genuino, resistente y con hebilla metálica.",
-    "img": "/images/accessories/correa-cuero.jpg",
-    "category": "Ropa",
-    "handmade": false,
+    "category_id": 2,
+    "name": "LLavero",
+    "description": "Llavero artesanal",
+    "img": "https://i.pinimg.com/736x/45/1a/26/451a263ff27dc23863d8456f53593ae3.jpg",
+    "handmade": true,
     "available": true,
-    "highlighted": false,
-    "price": 29.99,
-    "stock": 15
+    "highlighted": true,
+    "price": 25000.00,
+    "stock": 30,
+    "rating": 5
   }
 
 
 ### Partially update an existing accessory
-PATCH http://localhost:3000/accessories/af711ca8-895e-43b5-bd8d-9d266a45dcb7
+PATCH http://localhost:3000/accessories/67d91ccc-5943-11f1-accf-f0736fd2cf90
 Content-Type: application/json
 
   {
-    "price": 500.001
+    "price": 500.05
   }
 
 ### Delete an existing accessory
-DELETE http://localhost:3000/accessories/777d84be-1929-4615-b221-e154491799e4
+DELETE http://localhost:3000/accessories/57f24da8-595a-11f1-8925-c6266cac1a7d
+
+
+
+### get all accessory categories
+http://localhost:3000/accessory-categories
+
+### update an existing accessory category
+PUT http://localhost:3000/accessory-categories/2
+Content-Type: application/json
+
+  {
+    "name": 1
+  }
+
+### delete an existing accessory category
+DELETE http://localhost:3000/accessory-categories/1

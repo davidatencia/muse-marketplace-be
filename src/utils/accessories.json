@@ -9,7 +9,9 @@
     "available": true,
     "highlighted": false,
     "price": 29.99,
-    "stock": 15
+    "stock": 15,
+    "rating": null,
+    "materials": ["leather", "metal"]
   },
   {
     "id": "4aab64f6-73bd-4f68-8be6-b501a71ec995",
@@ -21,7 +23,9 @@
     "available": true,
     "highlighted": false,
     "price": 19.99,
-    "stock": 30
+    "stock": 30,
+    "rating": null,
+    "materials": ["cotton", "polyester"]
   },
   {
     "id": "527346ca-2445-4e00-93ec-b3980249b708",
@@ -33,7 +37,9 @@
     "available": true,
     "highlighted": false,
     "price": 49.99,
-    "stock": 10
+    "stock": 10,
+    "rating": null,
+    "materials": ["synthetic leather", "metal"]
   },
   {
     "id": "c018fb00-4f52-4bcf-ba48-8a9c6d14e9eb",
@@ -45,7 +51,9 @@
     "available": true,
     "highlighted": true,
     "price": 14.99,
-    "stock": 50
+    "stock": 50,
+    "rating": null,
+    "materials": ["stainless steel"]
   },
   {
     "id": "777d84be-1929-4615-b221-e154491799e4",
@@ -57,7 +65,9 @@
     "available": true,
     "highlighted": true,
     "price": 39.99,
-    "stock": 8
+    "stock": 8,
+    "rating": null,
+    "materials": ["wool"]
   },
   {
     "id": "a569c07b-2147-4252-bf7c-ca3bb008b7c6",
@@ -69,7 +79,9 @@
     "available": true,
     "highlighted": false,
     "price": 89.99,
-    "stock": 12
+    "stock": 12,
+    "rating": null,
+    "materials": ["silicone", "mineral glass", "stainless steel"]
   },
   {
     "id": "6bd89a0f-c1bd-4fdc-b70f-5db61072f807",
@@ -81,7 +93,8 @@
     "available": true,
     "highlighted": false,
     "price": 34.99,
-    "stock": 20
+    "stock": 20,
+    "materials": ["polycarbonate", "nylon"]
   },
   {
     "id": "0dc78ef1-38ab-461a-83cb-569424f7c337",
@@ -93,6 +106,8 @@
     "available": true,
     "highlighted": true,
     "price": 12.99,
-    "stock": 25
+    "stock": 25,
+    "rating": null,
+    "materials": ["leather", "wood", "metal"]
   }
 ]

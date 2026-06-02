@@ -13,10 +13,12 @@ const accessorySchema = object({
     required_error: 'Image is required',
     invalid_type_error: 'Image must be a string',
   }),
-  category: string({
+  category_id: number({
     required_error: 'Category is required',
-    invalid_type_error: 'Category must be a string',
-  }),
+    invalid_type_error: 'Category must be a number',
+  })
+    .int()
+    .nonnegative(),
   handmade: boolean({
     required_error: 'Handmade status is required',
     invalid_type_error: 'Handmade status must be a boolean',
@@ -42,6 +44,7 @@ const accessorySchema = object({
     .min(0)
     .max(999999),
   rating: number().int().min(1).max(5).nullable().optional(),
+  materials: array(string()).optional(),
 });
 
 const accessoriesArraySchema = array(accessorySchema);
