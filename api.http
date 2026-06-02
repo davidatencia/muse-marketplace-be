@@ -10,16 +10,17 @@ Content-Type: application/json
 
 [
   {
-    "name": "Aretes de Plata",
-    "description": "Aretes de plata con diseño elegante, perfectos para cualquier ocasión.",
-    "img": "https://co.anabuendiaofficial.com/cdn/shop/products/EarringCoprisilver-arete-plata-filigrana-2.jpg?v=1612899945&width=600",
-    "category_id": 3,
+    "name": "Collar de plata",
+    "description": "Collar de plata de 18 quilates con diseño elegante",
+    "img": "https://cdn-media.glamira.com/media/product/newgeneration/view/1/sku/bevelledgourmet4-75mm-c/alloycolour/yellow.jpg",
+    "category_id": 5,
     "handmade": false,
     "available": true,
     "highlighted": true,
-    "price": 12.99,
-    "stock": 25,
-    "rating": 4
+    "price": 500000,
+    "stock": 10,
+    "rating": 5,
+    "materials": [6, 3]
   }
 ]
 

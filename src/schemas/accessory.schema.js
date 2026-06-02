@@ -44,7 +44,7 @@ const accessorySchema = object({
     .min(0)
     .max(999999),
   rating: number().int().min(1).max(5).nullable().optional(),
-  materials: array(string()).optional(),
+  materials: array(number().int().positive()).optional(),
 });
 
 const accessoriesArraySchema = array(accessorySchema);

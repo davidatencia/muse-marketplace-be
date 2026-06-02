@@ -39,6 +39,16 @@ export default class AccessoryMaterialsModel {
     ]);
   }
 
+  static async getMissingMaterials(ids) {
+    const placeholders = ids.map(() => '?').join(', ');
+    const [found] = await dbConnection.query(
+      `SELECT id FROM materials WHERE id IN (${placeholders});`,
+      ids,
+    );
+    const foundIds = found.map((m) => m.id);
+    return ids.filter((id) => !foundIds.includes(id));
+  }
+
   static async materialInUse(id) {
     const [[{ count }]] = await dbConnection.query(
       `SELECT COUNT(*) AS count FROM accessories WHERE material_id = ?;`,

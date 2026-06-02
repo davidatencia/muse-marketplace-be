@@ -1,4 +1,6 @@
 import AccessoryModel from '../models/accessories.model.js';
+import AccessoryCategoriesModel from '../models/accessory-categories.model.js';
+import AccessoryMaterialsModel from '../models/accessory-materials.model.js';
 import {
   validateAccessoriesArrayData,
   validateAccessoryData,
@@ -38,6 +40,30 @@ export default class AccessoriesController {
         return res
           .status(400)
           .json({ message: 'Invalid accessory data', details: error.issues });
+      }
+
+      const categoryIds = [...new Set(body.map((item) => item.category_id))];
+      for (const categoryId of categoryIds) {
+        const category = await AccessoryCategoriesModel.getById(categoryId);
+        if (!category.length) {
+          return res
+            .status(422)
+            .json({ message: `Category with id ${categoryId} not found` });
+        }
+      }
+
+      const materialIds = [
+        ...new Set(body.flatMap((item) => item.materials ?? [])),
+      ];
+      if (materialIds.length > 0) {
+        const missing =
+          await AccessoryMaterialsModel.getMissingMaterials(materialIds);
+        if (missing.length > 0) {
+          return res.status(422).json({
+            message: 'Some materials were not found',
+            details: missing,
+          });
+        }
       }
 
       res.status(201).json(await AccessoryModel.create(body));

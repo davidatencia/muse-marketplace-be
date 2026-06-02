@@ -87,11 +87,11 @@ export default class AccessoryModel {
       }),
     );
 
-    const placeholders = items
+    const accessoryPlaceholders = items
       .map(() => '(UUID_TO_BIN(?), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)')
       .join(', ');
 
-    const values = items.flatMap(
+    const accessoryValues = items.flatMap(
       ({
         id,
         category_id,
@@ -119,10 +119,32 @@ export default class AccessoryModel {
       ],
     );
 
-    await dbConnection.query(
-      `INSERT INTO accessories (id, category_id, name, description, img, handmade, available, highlighted, price, stock, rating) VALUES ${placeholders}`,
-      values,
+    const materialRows = items.flatMap(({ id, materials = [] }) =>
+      materials.map((materialId) => [id, materialId]),
     );
+
+    await dbConnection.beginTransaction();
+    try {
+      await dbConnection.query(
+        `INSERT INTO accessories (id, category_id, name, description, img, handmade, available, highlighted, price, stock, rating) VALUES ${accessoryPlaceholders}`,
+        accessoryValues,
+      );
+
+      if (materialRows.length > 0) {
+        const materialPlaceholders = materialRows
+          .map(() => '(UUID_TO_BIN(?), ?)')
+          .join(', ');
+        await dbConnection.query(
+          `INSERT INTO accessory_materials (accessory_id, material_id) VALUES ${materialPlaceholders}`,
+          materialRows.flat(),
+        );
+      }
+
+      await dbConnection.commit();
+    } catch (error) {
+      await dbConnection.rollback();
+      throw error;
+    }
 
     return items;
   }
