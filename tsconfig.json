@@ -9,14 +9,15 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "paths": {
+      "@configFile": ["./config.ts"],
       "@config/*": ["./src/config/*"],
       "@controllers/*": ["./src/controllers/*"],
       "@middlewares/*": ["./src/middlewares/*"],
       "@models/*": ["./src/models/*"],
       "@routes/*": ["./src/routes/*"],
       "@schemas/*": ["./src/schemas/*"],
-      "@SharedConstants/*": ["./src/shared/constants/*"],
-      "@SharedTypes/*": ["./src/shared/types/*"]
+      "@sharedConstants/*": ["./src/shared/constants/*"],
+      "@sharedTypes/*": ["./src/shared/types/*"]
     }
   },
   "include": ["**/*.ts"],

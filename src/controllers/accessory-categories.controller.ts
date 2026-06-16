@@ -53,9 +53,12 @@ export default class AccessoryCategoriesController {
         return;
       }
 
-      if (!(await AccessoryCategoriesController.validateCategoryExistence(id, res))) return;
+      const result = await AccessoryCategoriesModel.update(id, name);
+      if (result.affectedRows === 0) {
+        res.status(404).json({ message: 'Accessory category not found' });
+        return;
+      }
 
-      await AccessoryCategoriesModel.update(id, name);
       res.json({ message: 'Accessory category updated successfully' });
     } catch (error) {
       res.status(500).json({
@@ -70,8 +73,6 @@ export default class AccessoryCategoriesController {
     res: Response,
   ): Promise<void> {
     try {
-      if (!(await AccessoryCategoriesController.validateCategoryExistence(id, res))) return;
-
       if (await AccessoryCategoriesModel.hasAccessories(id)) {
         res.status(409).json({
           message: 'Cannot delete category with associated accessories',
@@ -79,22 +80,18 @@ export default class AccessoryCategoriesController {
         return;
       }
 
-      await AccessoryCategoriesModel.delete(id);
-      res.status(204).json({ message: 'Accessory category deleted successfully' });
+      const [result] = await AccessoryCategoriesModel.delete(id);
+      if (result.affectedRows === 0) {
+        res.status(404).json({ message: 'Accessory category not found' });
+        return;
+      }
+
+      res.status(204).send();
     } catch (error) {
       res.status(500).json({
         message: 'Error deleting accessory category',
         error: (error as NodeJS.ErrnoException).code,
       });
     }
-  }
-
-  static async validateCategoryExistence(id: string, res: Response): Promise<boolean> {
-    const existing = await AccessoryCategoriesModel.getById(id);
-    if (!existing.length) {
-      res.status(404).json({ message: 'Accessory category not found' });
-      return false;
-    }
-    return true;
   }
 }

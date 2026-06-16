@@ -31,13 +31,13 @@ export default class AccessoryCategoriesModel {
     return name;
   }
 
-  static async update(id: number | string, name: string): Promise<string> {
-    await dbConnection.query(`UPDATE categories SET name = ? WHERE id = ?;`, [
-      name,
-      id,
-    ]);
+  static async update(id: number | string, name: string): Promise<ResultSetHeader> {
+    const [result] = await dbConnection.query<ResultSetHeader>(
+      `UPDATE categories SET name = ? WHERE id = ?;`,
+      [name, id],
+    );
 
-    return name;
+    return result;
   }
 
   static async hasAccessories(id: number | string): Promise<boolean> {

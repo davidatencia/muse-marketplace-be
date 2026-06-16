@@ -2,7 +2,7 @@
 http://localhost:3000/accessories
 
 ### Get a specific accessory
-http://localhost:3000/accessories/67d91ccc-5943-11f1-accf-f0736fd2cf99
+http://localhost:3000/accessories/8227fbb4-5968-11f1-8925-c6266cac1a7c
 
 ### Add new accessories
 POST http://localhost:3000/accessories
@@ -24,7 +24,7 @@ Content-Type: application/json
 ]
 
 ### Update an existing accessory
-PUT http://localhost:3000/accessories/67d91ccc-5943-11f1-accf-f0736fd2cf99
+PUT http://localhost:3000/accessories/8227fbb4-5968-11f1-8925-c6266cac1a7d
 Content-Type: application/json
 
   {
@@ -42,7 +42,7 @@ Content-Type: application/json
 
 
 ### Partially update an existing accessory
-PATCH http://localhost:3000/accessories/67d91ccc-5943-11f1-accf-f0736fd2cf99
+PATCH http://localhost:3000/accessories/8227fbb4-5968-11f1-8925-c6266cac1a7d
 Content-Type: application/json
 
   {
@@ -90,7 +90,7 @@ Content-Type: application/json
   }
 
 ### update an existing accessory material
-PUT http://localhost:3000/accessory-materials/1
+PUT http://localhost:3000/accessory-materials/10
 Content-Type: application/json
 
   {
@@ -99,3 +99,23 @@ Content-Type: application/json
 
 ### delete an existing accessory material
 DELETE http://localhost:3000/accessory-materials/1
+
+### User routes
+#### Login
+POST http://localhost:3000/login
+Content-Type: application/json
+
+  {
+    "name": "admin",
+    "password": "password"
+  }
+
+#### Register
+POST http://localhost:3000/register
+Content-Type: application/json
+
+  {
+    "name": "newuser",
+    "password": "password",
+    "email": "user@example.com"
+  }

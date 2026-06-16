@@ -51,9 +51,12 @@ export default class AccessoryMaterialsController {
         return;
       }
 
-      if (!(await AccessoryMaterialsController.validateMaterialExistence(id, res))) return;
+      const [result] = await AccessoryMaterialsModel.update(id, name);
+      if (result.affectedRows === 0) {
+        res.status(404).json({ message: 'Accessory material not found' });
+        return;
+      }
 
-      await AccessoryMaterialsModel.update(id, name);
       res.json({ message: 'Accessory material updated successfully' });
     } catch (error) {
       res.status(500).json({
@@ -68,33 +71,25 @@ export default class AccessoryMaterialsController {
     res: Response,
   ): Promise<void> {
     try {
-      if (!(await AccessoryMaterialsController.validateMaterialExistence(id, res))) return;
-
       if (await AccessoryMaterialsModel.materialInUse(id)) {
-        console.log('Material is in use by accessories, cannot delete');
         res.status(400).json({
           message: 'Cannot delete material in use by accessories',
         });
         return;
       }
 
-        console.log('Material is not in use, proceeding with deletion');
-      await AccessoryMaterialsModel.delete(id);
-      res.json({ message: 'Accessory material deleted successfully' });
+      const [result] = await AccessoryMaterialsModel.delete(id);
+      if (result.affectedRows === 0) {
+        res.status(404).json({ message: 'Accessory material not found' });
+        return;
+      }
+
+      res.status(204).send();
     } catch (error) {
       res.status(500).json({
         message: 'Error deleting accessory material',
         error,
       });
     }
-  }
-
-  static async validateMaterialExistence(id: string, res: Response): Promise<boolean> {
-    const material = await AccessoryMaterialsModel.getById(id);
-    if (!material.length) {
-      res.status(404).json({ message: 'Accessory material not found' });
-      return false;
-    }
-    return true;
   }
 }

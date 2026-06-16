@@ -14,14 +14,6 @@ export default class AccessoryMaterialsModel {
     return materials;
   }
 
-  static async getById(id: number | string): Promise<MaterialRow[]> {
-    const [rows] = await dbConnection.query<MaterialRow[]>(
-      `SELECT id, name FROM materials WHERE id = ?;`,
-      [id],
-    );
-    return rows;
-  }
-
   static async create(name: string): Promise<{ id: number; name: string }> {
     const [result] = await dbConnection.query<ResultSetHeader>(
       `INSERT INTO materials (name) VALUES (?);`,

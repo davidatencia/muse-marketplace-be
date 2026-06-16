@@ -1,7 +1,7 @@
-import { ResultSetHeader, RowDataPacket } from 'mysql2';
+import { QueryError, ResultSetHeader, RowDataPacket } from 'mysql2';
 import dbConnection from '@config/db.js';
 import { AccessoryData } from '@schemas/accessory.schema.js';
-import { AccessoryRow, AccessoryWithId } from '@SharedTypes/accessory.interface.js';
+import { AccessoryRow, AccessoryWithId } from '@sharedTypes/accessory.interface.js';
 
 const ACCESSORY_SELECT = `
   SELECT
@@ -94,18 +94,18 @@ export default class AccessoryModel {
     return items;
   }
 
-  static async update(id: string, data: AccessoryData): Promise<AccessoryData> {
+  static async update(id: string, data: AccessoryData): Promise<ResultSetHeader> {
     const { category_id, name, description, img, handmade, available, highlighted, price, stock, rating } = data;
 
-    await dbConnection.query(
+    const [result] = await dbConnection.query<ResultSetHeader>(
       'UPDATE accessories SET category_id = ?, name = ?, description = ?, img = ?, handmade = ?, available = ?, highlighted = ?, price = ?, stock = ?, rating = ? WHERE id = UUID_TO_BIN(?)',
       [category_id, name, description, img, handmade, available, highlighted, price, stock, rating ?? null, id],
     );
 
-    return data;
+    return result;
   }
 
-  static async partialUpdate(id: string, data: Partial<AccessoryData>): Promise<Partial<AccessoryData>> {
+  static async partialUpdate(id: string, data: Partial<AccessoryData>): Promise<ResultSetHeader> {
     const fields = Object.keys(data)
       .map((key) => `${key} = ?`)
       .join(', ');
@@ -115,12 +115,12 @@ export default class AccessoryModel {
       id,
     ];
 
-    await dbConnection.query(
+    const [result] = await dbConnection.query<ResultSetHeader>(
       `UPDATE accessories SET ${fields} WHERE id = UUID_TO_BIN(?)`,
       values,
     );
 
-    return data;
+    return result;
   }
 
   static async delete(id: string): Promise<[ResultSetHeader, any]> {

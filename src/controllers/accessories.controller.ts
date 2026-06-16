@@ -83,9 +83,13 @@ export default class AccessoriesController {
         return;
       }
 
-      if (!(await AccessoriesController.validateAccessoryExistence(id, res))) return;
+      const result = await AccessoryModel.update(id, body);
+      if (result.affectedRows === 0) {
+        res.status(404).json({ message: 'Accessory not found' });
+        return;
+      }
 
-      res.status(200).json(await AccessoryModel.update(id, body));
+      res.json(body);
     } catch (error) {
       res.status(500).json({
         message: 'Error updating accessory',
@@ -105,9 +109,13 @@ export default class AccessoriesController {
         return;
       }
 
-      if (!(await AccessoriesController.validateAccessoryExistence(id, res))) return;
+      const result = await AccessoryModel.partialUpdate(id, body);
+      if (result.affectedRows === 0) {
+        res.status(404).json({ message: 'Accessory not found' });
+        return;
+      }
 
-      res.status(200).json(await AccessoryModel.partialUpdate(id, body));
+      res.json(body);
     } catch (error) {
       res.status(500).json({ message: 'Error updating accessory', error });
     }
@@ -118,9 +126,12 @@ export default class AccessoriesController {
     res: Response,
   ): Promise<void> {
     try {
-      if (!(await AccessoriesController.validateAccessoryExistence(id, res))) return;
+      const [result] = await AccessoryModel.delete(id);
+      if (result.affectedRows === 0) {
+        res.status(404).json({ message: 'Accessory not found' });
+        return;
+      }
 
-      await AccessoryModel.delete(id);
       res.status(204).send();
     } catch (error) {
       res.status(500).json({
@@ -128,14 +139,5 @@ export default class AccessoriesController {
         error: (error as NodeJS.ErrnoException).code,
       });
     }
-  }
-
-  static async validateAccessoryExistence(id: string, res: Response): Promise<boolean> {
-    const existing = await AccessoryModel.getById(id);
-    if (!existing.length) {
-      res.status(404).json({ message: 'Accessory not found' });
-      return false;
-    }
-    return true;
   }
 }
