@@ -16,6 +16,7 @@
       "@models/*": ["./src/models/*"],
       "@routes/*": ["./src/routes/*"],
       "@schemas/*": ["./src/schemas/*"],
+      "@services/*": ["./src/services/*"],
       "@sharedConstants/*": ["./src/shared/constants/*"],
       "@sharedTypes/*": ["./src/shared/types/*"]
     }

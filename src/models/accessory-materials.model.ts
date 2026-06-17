@@ -1,14 +1,10 @@
 import { RowDataPacket, ResultSetHeader } from 'mysql2/promise';
 import dbConnection from '@config/db.js';
-
-interface MaterialRow extends RowDataPacket {
-  id: number;
-  name: string;
-}
+import { NamedRow, NamedRowDB } from '@sharedTypes/named-row.interface.js';
 
 export default class AccessoryMaterialsModel {
-  static async getAll(): Promise<MaterialRow[]> {
-    const [materials] = await dbConnection.query<MaterialRow[]>(
+  static async getAll(): Promise<NamedRow[]> {
+    const [materials] = await dbConnection.query<NamedRowDB[]>(
       `SELECT id, name FROM materials ORDER BY name;`,
     );
     return materials;
@@ -22,11 +18,12 @@ export default class AccessoryMaterialsModel {
     return { id: result.insertId, name };
   }
 
-  static async update(id: number | string, name: string): Promise<[ResultSetHeader, any]> {
-    return await dbConnection.query(`UPDATE materials SET name = ? WHERE id = ?;`, [
-      name,
-      id,
-    ]);
+  static async update(id: number | string, name: string): Promise<boolean> {
+    const [result] = await dbConnection.query<ResultSetHeader>(
+      `UPDATE materials SET name = ? WHERE id = ?;`,
+      [name, id],
+    );
+    return result.affectedRows > 0;
   }
 
   static async getMissingMaterials(ids: number[]): Promise<number[]> {
@@ -46,7 +43,11 @@ export default class AccessoryMaterialsModel {
     return Number(count) > 0;
   }
 
-  static delete(id: number | string): Promise<[ResultSetHeader, any]> {
-    return dbConnection.query(`DELETE FROM materials WHERE id = ?;`, [id]);
+  static async delete(id: number | string): Promise<boolean> {
+    const [result] = await dbConnection.query<ResultSetHeader>(
+      `DELETE FROM materials WHERE id = ?;`,
+      [id],
+    );
+    return result.affectedRows > 0;
   }
 }

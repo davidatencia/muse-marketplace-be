@@ -21,7 +21,7 @@ export default class AccessoryMaterialsController {
       if (error) {
         res.status(400).json({
           message: 'Invalid accessory material data',
-          details: error.issues,
+          details: error.issues[0].message,
         });
         return;
       }
@@ -46,13 +46,13 @@ export default class AccessoryMaterialsController {
       if (error) {
         res.status(400).json({
           message: 'Invalid accessory material data',
-          details: error.issues,
+          details: error.issues[0].message,
         });
         return;
       }
 
-      const [result] = await AccessoryMaterialsModel.update(id, name);
-      if (result.affectedRows === 0) {
+      const updated = await AccessoryMaterialsModel.update(id, name);
+      if (!updated) {
         res.status(404).json({ message: 'Accessory material not found' });
         return;
       }
@@ -78,8 +78,8 @@ export default class AccessoryMaterialsController {
         return;
       }
 
-      const [result] = await AccessoryMaterialsModel.delete(id);
-      if (result.affectedRows === 0) {
+      const deleted = await AccessoryMaterialsModel.delete(id);
+      if (!deleted) {
         res.status(404).json({ message: 'Accessory material not found' });
         return;
       }

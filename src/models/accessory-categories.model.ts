@@ -1,21 +1,17 @@
 import { RowDataPacket, ResultSetHeader } from 'mysql2/promise';
 import dbConnection from '@config/db.js';
-
-interface CategoryRow extends RowDataPacket {
-  id: number;
-  name: string;
-}
+import { NamedRow, NamedRowDB } from '@sharedTypes/named-row.interface.js';
 
 export default class AccessoryCategoriesModel {
-  static async getAll(): Promise<CategoryRow[]> {
-    const [categories] = await dbConnection.query<CategoryRow[]>(
+  static async getAll(): Promise<NamedRow[]> {
+    const [categories] = await dbConnection.query<NamedRowDB[]>(
       `SELECT id, name FROM categories ORDER BY name;`,
     );
     return categories;
   }
 
-  static async getById(id: number | string): Promise<CategoryRow[]> {
-    const [rows] = await dbConnection.query<CategoryRow[]>(
+  static async getById(id: number | string): Promise<NamedRow[]> {
+    const [rows] = await dbConnection.query<NamedRowDB[]>(
       `SELECT id, name FROM categories WHERE id = ?;`,
       [id],
     );
@@ -23,21 +19,19 @@ export default class AccessoryCategoriesModel {
   }
 
   static async create(name: string): Promise<string> {
-     await dbConnection.query<ResultSetHeader>(
+    await dbConnection.query<ResultSetHeader>(
       `INSERT INTO categories (name) VALUES (?);`,
       [name],
     );
-   
     return name;
   }
 
-  static async update(id: number | string, name: string): Promise<ResultSetHeader> {
+  static async update(id: number | string, name: string): Promise<boolean> {
     const [result] = await dbConnection.query<ResultSetHeader>(
       `UPDATE categories SET name = ? WHERE id = ?;`,
       [name, id],
     );
-
-    return result;
+    return result.affectedRows > 0;
   }
 
   static async hasAccessories(id: number | string): Promise<boolean> {
@@ -47,7 +41,11 @@ export default class AccessoryCategoriesModel {
     return Number(count) > 0;
   }
 
-  static async delete(id: number | string): Promise<[ResultSetHeader, any]> {
-    return await dbConnection.query(`DELETE FROM categories WHERE id = ?;`, [id]);
+  static async delete(id: number | string): Promise<boolean> {
+    const [result] = await dbConnection.query<ResultSetHeader>(
+      `DELETE FROM categories WHERE id = ?;`,
+      [id],
+    );
+    return result.affectedRows > 0;
   }
 }

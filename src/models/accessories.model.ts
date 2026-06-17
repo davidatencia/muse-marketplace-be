@@ -1,7 +1,7 @@
-import { QueryError, ResultSetHeader, RowDataPacket } from 'mysql2';
+import { ResultSetHeader, RowDataPacket } from 'mysql2';
 import dbConnection from '@config/db.js';
 import { AccessoryData } from '@schemas/accessory.schema.js';
-import { AccessoryRow, AccessoryWithId } from '@sharedTypes/accessory.interface.js';
+import { AccessoryRow, AccessoryWithId, AccessoryRowDB } from '@sharedTypes/accessory.interface.js';
 
 const ACCESSORY_SELECT = `
   SELECT
@@ -28,14 +28,14 @@ const ACCESSORY_GROUP_BY = `
 
 export default class AccessoryModel {
   static async getAll(): Promise<AccessoryRow[]> {
-    const [accessories] = await dbConnection.query<AccessoryRow[]>(
+    const [accessories] = await dbConnection.query<AccessoryRowDB[]>(
       `${ACCESSORY_SELECT} ${ACCESSORY_GROUP_BY} ORDER BY a.name;`,
     );
     return accessories;
   }
 
   static async getById(id: string): Promise<AccessoryRow[]> {
-    const [accessories] = await dbConnection.query<AccessoryRow[]>(
+    const [accessories] = await dbConnection.query<AccessoryRowDB[]>(
       `${ACCESSORY_SELECT}
       WHERE a.id = UUID_TO_BIN(?)
       ${ACCESSORY_GROUP_BY}
@@ -94,7 +94,7 @@ export default class AccessoryModel {
     return items;
   }
 
-  static async update(id: string, data: AccessoryData): Promise<ResultSetHeader> {
+  static async update(id: string, data: AccessoryData): Promise<boolean> {
     const { category_id, name, description, img, handmade, available, highlighted, price, stock, rating } = data;
 
     const [result] = await dbConnection.query<ResultSetHeader>(
@@ -102,10 +102,10 @@ export default class AccessoryModel {
       [category_id, name, description, img, handmade, available, highlighted, price, stock, rating ?? null, id],
     );
 
-    return result;
+    return result.affectedRows > 0;
   }
 
-  static async partialUpdate(id: string, data: Partial<AccessoryData>): Promise<ResultSetHeader> {
+  static async partialUpdate(id: string, data: Partial<AccessoryData>): Promise<boolean> {
     const fields = Object.keys(data)
       .map((key) => `${key} = ?`)
       .join(', ');
@@ -120,10 +120,14 @@ export default class AccessoryModel {
       values,
     );
 
-    return result;
+    return result.affectedRows > 0;
   }
 
-  static async delete(id: string): Promise<[ResultSetHeader, any]> {
-    return await dbConnection.query('DELETE FROM accessories WHERE id = UUID_TO_BIN(?)', [id]);
+  static async delete(id: string): Promise<boolean> {
+    const [result] = await dbConnection.query<ResultSetHeader>(
+      'DELETE FROM accessories WHERE id = UUID_TO_BIN(?)',
+      [id],
+    );
+    return result.affectedRows > 0;
   }
 }

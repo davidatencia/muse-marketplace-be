@@ -24,7 +24,7 @@ export default class AccessoryCategoriesController {
       if (error) {
         res.status(400).json({
           message: 'Invalid accessory category data',
-          details: error.issues,
+          details: error.issues[0].message,
         });
         return;
       }
@@ -48,13 +48,13 @@ export default class AccessoryCategoriesController {
       if (error) {
         res.status(400).json({
           message: 'Invalid accessory category data',
-          details: error.issues,
+          details: error.issues[0].message,
         });
         return;
       }
 
-      const result = await AccessoryCategoriesModel.update(id, name);
-      if (result.affectedRows === 0) {
+      const updated = await AccessoryCategoriesModel.update(id, name);
+      if (!updated) {
         res.status(404).json({ message: 'Accessory category not found' });
         return;
       }
@@ -80,8 +80,8 @@ export default class AccessoryCategoriesController {
         return;
       }
 
-      const [result] = await AccessoryCategoriesModel.delete(id);
-      if (result.affectedRows === 0) {
+      const deleted = await AccessoryCategoriesModel.delete(id);
+      if (!deleted) {
         res.status(404).json({ message: 'Accessory category not found' });
         return;
       }

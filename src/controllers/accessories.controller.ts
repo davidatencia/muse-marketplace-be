@@ -9,7 +9,7 @@ import {
 } from '@schemas/accessory.schema.js';
 
 export default class AccessoriesController {
-  static async getAllAccessories(req: Request, res: Response): Promise<void> {
+  static async getAllAccessories(_req: Request, res: Response): Promise<void> {
     try {
       res.json(await AccessoryModel.getAll());
     } catch (error) {
@@ -44,7 +44,7 @@ export default class AccessoriesController {
       const { error } = validateAccessoriesArrayData(body);
 
       if (error) {
-        res.status(400).json({ message: 'Invalid accessory data', details: error.issues });
+        res.status(400).json({ message: 'Invalid accessory data', details: error.issues.map((issue) => issue.message) });
         return;
       }
 
@@ -79,12 +79,12 @@ export default class AccessoriesController {
     try {
       const { error } = validateAccessoryData(body);
       if (error) {
-        res.status(400).json({ message: 'Invalid accessory data', details: error.issues });
+        res.status(400).json({ message: 'Invalid accessory data', details: error.issues[0].message });
         return;
       }
 
-      const result = await AccessoryModel.update(id, body);
-      if (result.affectedRows === 0) {
+      const updated = await AccessoryModel.update(id, body);
+      if (!updated) {
         res.status(404).json({ message: 'Accessory not found' });
         return;
       }
@@ -105,12 +105,12 @@ export default class AccessoriesController {
     try {
       const { error } = validatePartialAccessoryData(body);
       if (error) {
-        res.status(400).json({ message: 'Invalid accessory data', details: error.issues });
+        res.status(400).json({ message: 'Invalid accessory data', details: error.issues[0].message });
         return;
       }
 
-      const result = await AccessoryModel.partialUpdate(id, body);
-      if (result.affectedRows === 0) {
+      const updated = await AccessoryModel.partialUpdate(id, body);
+      if (!updated) {
         res.status(404).json({ message: 'Accessory not found' });
         return;
       }
@@ -126,8 +126,8 @@ export default class AccessoriesController {
     res: Response,
   ): Promise<void> {
     try {
-      const [result] = await AccessoryModel.delete(id);
-      if (result.affectedRows === 0) {
+      const deleted = await AccessoryModel.delete(id);
+      if (!deleted) {
         res.status(404).json({ message: 'Accessory not found' });
         return;
       }

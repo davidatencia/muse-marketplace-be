@@ -1,7 +1,7 @@
 import { AccessoryData } from '@schemas/accessory.schema.js';
-import { RowDataPacket } from 'mysql2/promise';
+import {  RowDataPacket } from 'mysql2';
 
-export interface AccessoryRow extends RowDataPacket {
+export interface AccessoryRow {
   id: string;
   name: string;
   description: string;
@@ -17,3 +17,5 @@ export interface AccessoryRow extends RowDataPacket {
 }
 
 export type AccessoryWithId = AccessoryData & { id: string };
+
+export interface AccessoryRowDB extends AccessoryRow, RowDataPacket {}
