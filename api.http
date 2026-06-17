@@ -1,6 +1,7 @@
 ### Get all accessories
 http://localhost:3000/accessories
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQ1MDEwOTYwLTY5ZDAtMTFmMS04YWE3LTEzZDgwNThkYjZlOCIsIm5hbWUiOiJEYXZpZCBBdGVuY2lhIiwiZW1haWwiOiJkYXZpZGF0ZW5jaWEyMDAwQGdtYWlsLmNvbSIsImNyZWF0ZWRfYXQiOiIyMDI2LTA2LTE2VDIyOjExOjA1LjAwMFoiLCJ1cGRhdGVkX2F0IjoiMjAyNi0wNi0xNlQyMjoxMTowNS4wMDBaIiwiaXNfYWN0aXZlIjoxLCJpYXQiOjE3ODE2Njk3OTEsImV4cCI6MTc4MTY3MzM5MX0.YNyU7gPsfse-thABRyDW3ABKXcE4-rGIt8x4k75_Mp4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQ1MDEwOTYwLTY5ZDAtMTFmMS04YWE3LTEzZDgwNThkYjZlOCIsIm5hbWUiOiJEYXZpZCBBdGVuY2lhIiwiZW1haWwiOiJkYXZpZGF0ZW5jaWEyMDAwQGdtYWlsLmNvbSIsImNyZWF0ZWRfYXQiOiIyMDI2LTA2LTE2VDIyOjExOjA1LjAwMFoiLCJ1cGRhdGVkX2F0IjoiMjAyNi0wNi0xNlQyMjoxMTowNS4wMDBaIiwiaXNfYWN0aXZlIjoxLCJpYXQiOjE3ODE3MTQyOTUsImV4cCI6MTc4MTcyMTQ5NX0.7CfN22VT6PfZkmPuTnzriZpAtknIyUgfrQ8u1Rd_Q0s
+
 
 ### Get a specific accessory
 http://localhost:3000/accessories/8227fbb4-5968-11f1-8925-c6266cac1a7c
@@ -119,4 +120,12 @@ Content-Type: application/json
     "name": "David Atencia",
     "password": "password123",
     "email": "davidatencia2000@gmail.com"
+  }
+
+### Refresh Token
+POST http://localhost:3000/refresh
+Content-Type: application/json
+
+  {
+    "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQ1MDEwOTYwLTY5ZDAtMTFmMS04YWE3LTEzZDgwNThkYjZlOCIsIm5hbWUiOiJEYXZpZCBBdGVuY2lhIiwiZW1haWwiOiJkYXZpZGF0ZW5jaWEyMDAwQGdtYWlsLmNvbSIsImNyZWF0ZWRfYXQiOiIyMDI2LTA2LTE2VDIyOjExOjA1LjAwMFoiLCJ1cGRhdGVkX2F0IjoiMjAyNi0wNi0xN1QxNjo1NjoyMi4wMDBaIiwiaXNfYWN0aXZlIjoxLCJpYXQiOjE3ODE3MTU0OTMsImV4cCI6MTc4MjMyMDI5M30.f3jdAVND702JC1-BFkZwoOiR7ZCv69lF_XgjIiokVCU"
   }

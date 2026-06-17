@@ -19,16 +19,20 @@ export default class UserController {
         return;
       }
 
-      const user = await UserModel.login(body);
-      if (!user) {
+      const userData = await UserModel.login(body);
+      if (!userData) {
         res.status(401).json({ message: 'Invalid credentials' });
         return;
       }
 
-      const access_token = AuthService.generateToken({
-        ...user
-      });
-      res.status(200).json({ access_token, ...user });
+      const access_token = AuthService.generateToken({ ...userData });
+      const refresh_token = AuthService.generateRefreshToken({ ...userData });
+
+      await UserModel.saveRefreshToken(String(userData.id), refresh_token);
+
+      res
+        .status(200)
+        .json({ authData: { access_token, refresh_token }, userData });
     } catch (error) {
       res.status(500).json({
         message: 'Login failed',
@@ -55,6 +59,34 @@ export default class UserController {
       res.status(500).json({
         message: 'Register failed',
       });
+    }
+  }
+
+  static async refresh(
+    { body: { refresh_token } }: Request,
+    res: Response,
+  ): Promise<void> {
+    try {
+      if (!refresh_token) {
+        res.status(401).json({ message: 'Refresh token is required' });
+        return;
+      }
+
+      const user = await UserModel.getUserByRefreshToken(refresh_token);
+      if (!user) {
+        res.status(403).json({ message: 'Invalid refresh token' });
+        return;
+      }
+
+      if (!user.is_active) {
+        res.status(403).json({ message: 'Account is inactive' });
+        return;
+      }
+
+      const access_token = AuthService.generateToken({ ...user });
+      res.status(200).json({ access_token });
+    } catch (error) {
+      res.status(403).json({ message: 'Invalid or expired refresh token' });
     }
   }
 }
