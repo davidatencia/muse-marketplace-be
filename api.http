@@ -1,0 +1,122 @@
+### Get all accessories
+http://localhost:3000/accessories
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQ1MDEwOTYwLTY5ZDAtMTFmMS04YWE3LTEzZDgwNThkYjZlOCIsIm5hbWUiOiJEYXZpZCBBdGVuY2lhIiwiZW1haWwiOiJkYXZpZGF0ZW5jaWEyMDAwQGdtYWlsLmNvbSIsImNyZWF0ZWRfYXQiOiIyMDI2LTA2LTE2VDIyOjExOjA1LjAwMFoiLCJ1cGRhdGVkX2F0IjoiMjAyNi0wNi0xNlQyMjoxMTowNS4wMDBaIiwiaXNfYWN0aXZlIjoxLCJpYXQiOjE3ODE2Njk3OTEsImV4cCI6MTc4MTY3MzM5MX0.YNyU7gPsfse-thABRyDW3ABKXcE4-rGIt8x4k75_Mp4
+
+### Get a specific accessory
+http://localhost:3000/accessories/8227fbb4-5968-11f1-8925-c6266cac1a7c
+
+### Add new accessories
+POST http://localhost:3000/accessories
+Content-Type: application/json
+
+[
+  {
+    "name": "Collar de bronce con diseño vintage",
+    "description": "Collar de bronce de 18 quilates con diseño elegante",
+    "img": "https://cdn-media.glamira.com/media/product/newgeneration/view/1/sku/bevelledgourmet4-75mm-c/alloycolour/yellow.jpg",
+    "category_id": 5,
+    "handmade": false,
+    "available": true,
+    "highlighted": true,
+    "price": 300000,
+    "stock": 10,
+    "materials": [6, 3]
+  }
+]
+
+### Update an existing accessory
+PUT http://localhost:3000/accessories/8227fbb4-5968-11f1-8925-c6266cac1a7d
+Content-Type: application/json
+
+  {
+    "category_id": 2,
+    "name": "LLavero artesanal",
+    "description": "Llavero artesanal",
+    "img": "https://i.pinimg.com/736x/45/1a/26/451a263ff27dc23863d8456f53593ae3.jpg",
+    "handmade": true,
+    "available": true,
+    "highlighted": true,
+    "price": 25000.00,
+    "stock": 30,
+    "rating": 5
+  }
+
+
+### Partially update an existing accessory
+PATCH http://localhost:3000/accessories/8227fbb4-5968-11f1-8925-c6266cac1a7d
+Content-Type: application/json
+
+  {
+    "price": 500.05
+  }
+
+### Delete an existing accessory
+DELETE http://localhost:3000/accessories/67d91ccc-5943-11f1-accf-f0736fd2cf99
+
+
+
+### get all accessory categories
+http://localhost:3000/accessory-categories
+
+### update an existing accessory category
+PUT http://localhost:3000/accessory-categories/3
+Content-Type: application/json
+
+  {
+    "name": "llaveros"
+  }
+
+### create a new accessory category
+POST http://localhost:3000/accessory-categories
+Content-Type: application/json
+
+  {
+    "name": "Metales"
+  }
+
+### delete an existing accessory category
+DELETE http://localhost:3000/accessory-categories/7
+
+
+### get all accessory materials
+http://localhost:3000/accessory-materials
+
+
+### create a new accessory material
+POST http://localhost:3000/accessory-materials
+Content-Type: application/json
+
+  {
+    "name": "Murano"
+  }
+
+### update an existing accessory material
+PUT http://localhost:3000/accessory-materials/10
+Content-Type: application/json
+
+  {
+    "name": "Cuero"
+  }
+
+### delete an existing accessory material
+DELETE http://localhost:3000/accessory-materials/1
+
+### User routes
+#### Login
+POST http://localhost:3000/login
+Content-Type: application/json
+
+  {
+    "email": "davidatencia2000@gmail.com",
+    "password": "password123"
+  }
+
+#### Register
+POST http://localhost:3000/register
+Content-Type: application/json
+
+  {
+    "name": "David Atencia",
+    "password": "password123",
+    "email": "davidatencia2000@gmail.com"
+  }
