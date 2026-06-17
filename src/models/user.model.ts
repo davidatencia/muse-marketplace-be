@@ -40,4 +40,31 @@ export class UserModel {
       [data.name, data.email, passwordHash],
     );
   }
+
+  static async saveRefreshToken(id: string, token: string): Promise<void> {
+    await dbConnection.query<ResultSetHeader>(
+      `UPDATE users
+       SET refresh_token = ?, refresh_token_expires_at = DATE_ADD(NOW(), INTERVAL 7 DAY)
+       WHERE id = UUID_TO_BIN(?);`,
+      [token, id],
+    );
+  }
+
+  static async getUserByRefreshToken(token: string): Promise<UserInformation | null> {
+    const [rows] = await dbConnection.query<UserRowDB[]>(
+      `SELECT
+        BIN_TO_UUID(id) AS id,
+        name,
+        email,
+        created_at,
+        updated_at,
+        is_active
+       FROM users
+       WHERE refresh_token = ? AND refresh_token_expires_at > NOW();`,
+      [token],
+    );
+
+    if (!rows.length) return null;
+    return rows[0];
+  }
 }
