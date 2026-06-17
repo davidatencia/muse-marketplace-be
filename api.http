@@ -121,3 +121,11 @@ Content-Type: application/json
     "password": "password123",
     "email": "davidatencia2000@gmail.com"
   }
+
+### Refresh Token
+POST http://localhost:3000/refresh
+Content-Type: application/json
+
+  {
+    "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQ1MDEwOTYwLTY5ZDAtMTFmMS04YWE3LTEzZDgwNThkYjZlOCIsIm5hbWUiOiJEYXZpZCBBdGVuY2lhIiwiZW1haWwiOiJkYXZpZGF0ZW5jaWEyMDAwQGdtYWlsLmNvbSIsImNyZWF0ZWRfYXQiOiIyMDI2LTA2LTE2VDIyOjExOjA1LjAwMFoiLCJ1cGRhdGVkX2F0IjoiMjAyNi0wNi0xN1QxNjo1NjoyMi4wMDBaIiwiaXNfYWN0aXZlIjoxLCJpYXQiOjE3ODE3MTU0OTMsImV4cCI6MTc4MjMyMDI5M30.f3jdAVND702JC1-BFkZwoOiR7ZCv69lF_XgjIiokVCU"
+  }
