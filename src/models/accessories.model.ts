@@ -95,32 +95,78 @@ export default class AccessoryModel {
   }
 
   static async update(id: string, data: AccessoryData): Promise<boolean> {
-    const { category_id, name, description, img, handmade, available, highlighted, price, stock, rating } = data;
+    const { category_id, name, description, img, handmade, available, highlighted, price, stock, rating, materials } = data;
 
-    const [result] = await dbConnection.query<ResultSetHeader>(
-      'UPDATE accessories SET category_id = ?, name = ?, description = ?, img = ?, handmade = ?, available = ?, highlighted = ?, price = ?, stock = ?, rating = ? WHERE id = UUID_TO_BIN(?)',
-      [category_id, name, description, img, handmade, available, highlighted, price, stock, rating ?? null, id],
-    );
+    await dbConnection.beginTransaction();
+    try {
+      const [result] = await dbConnection.query<ResultSetHeader>(
+        'UPDATE accessories SET category_id = ?, name = ?, description = ?, img = ?, handmade = ?, available = ?, highlighted = ?, price = ?, stock = ?, rating = ? WHERE id = UUID_TO_BIN(?)',
+        [category_id, name, description, img, handmade, available, highlighted, price, stock, rating ?? null, id],
+      );
 
-    return result.affectedRows > 0;
+      if (result.affectedRows > 0 && materials !== undefined) {
+        await AccessoryModel.syncMaterials(id, materials);
+      }
+
+      await dbConnection.commit();
+      return result.affectedRows > 0;
+    } catch (error) {
+      await dbConnection.rollback();
+      throw error;
+    }
   }
 
   static async partialUpdate(id: string, data: Partial<AccessoryData>): Promise<boolean> {
-    const fields = Object.keys(data)
-      .map((key) => `${key} = ?`)
-      .join(', ');
+    const { materials, ...scalarFields } = data;
+    const keys = Object.keys(scalarFields) as (keyof typeof scalarFields)[];
 
-    const values = [
-      ...Object.values(data).map((value) => (value === undefined ? null : value)),
-      id,
-    ];
+    await dbConnection.beginTransaction();
+    try {
+      let updated: boolean;
 
-    const [result] = await dbConnection.query<ResultSetHeader>(
-      `UPDATE accessories SET ${fields} WHERE id = UUID_TO_BIN(?)`,
-      values,
-    );
+      if (keys.length > 0) {
+        const fields = keys.map((key) => `${key} = ?`).join(', ');
+        const values = [
+          ...keys.map((key) => (scalarFields[key] === undefined ? null : scalarFields[key])),
+          id,
+        ];
 
-    return result.affectedRows > 0;
+        const [result] = await dbConnection.query<ResultSetHeader>(
+          `UPDATE accessories SET ${fields} WHERE id = UUID_TO_BIN(?)`,
+          values,
+        );
+        updated = result.affectedRows > 0;
+      } else {
+        const [rows] = await dbConnection.query<RowDataPacket[]>(
+          'SELECT 1 FROM accessories WHERE id = UUID_TO_BIN(?)',
+          [id],
+        );
+        updated = rows.length > 0;
+      }
+
+      if (updated && materials !== undefined) {
+        await AccessoryModel.syncMaterials(id, materials);
+      }
+
+      await dbConnection.commit();
+      return updated;
+    } catch (error) {
+      await dbConnection.rollback();
+      throw error;
+    }
+  }
+
+  private static async syncMaterials(id: string, materials: number[]): Promise<void> {
+    await dbConnection.query('DELETE FROM accessory_materials WHERE accessory_id = UUID_TO_BIN(?)', [id]);
+
+    if (materials.length > 0) {
+      const placeholders = materials.map(() => '(UUID_TO_BIN(?), ?)').join(', ');
+      const values = materials.flatMap((materialId) => [id, materialId]);
+      await dbConnection.query(
+        `INSERT INTO accessory_materials (accessory_id, material_id) VALUES ${placeholders}`,
+        values,
+      );
+    }
   }
 
   static async delete(id: string): Promise<boolean> {
