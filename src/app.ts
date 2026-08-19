@@ -3,6 +3,7 @@ import notFoundMiddleware from '@middlewares/errors.middleware.js';
 import accessoriesRouter from '@routes/accessories.routes.js';
 import accessoryCategoriesRouter from '@routes/accessory-categories.routes.js';
 import accessoryMaterialsRouter from '@routes/accessory-materials.route.js';
+import contactRouter from '@routes/contact.routes.js';
 import loginRouter from '@routes/login.routes.js';
 import refreshRouter from '@routes/refresh.routes.js';
 import registerRouter from '@routes/register.routes.js';
@@ -18,6 +19,7 @@ app.use(corsMiddleware);
 app.use('/login', loginRouter);
 app.use('/register', registerRouter);
 app.use('/refresh', refreshRouter);
+app.use('/contact', contactRouter);
 
 app.use('/accessories', accessoriesRouter);
 app.use('/accessory-categories', accessoryCategoriesRouter);
