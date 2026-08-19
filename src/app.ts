@@ -1,4 +1,3 @@
-import authMiddleware from '@middlewares/auth.middleware.js';
 import corsMiddleware from '@middlewares/cors.middleware.js';
 import notFoundMiddleware from '@middlewares/errors.middleware.js';
 import accessoriesRouter from '@routes/accessories.routes.js';
@@ -19,8 +18,6 @@ app.use(corsMiddleware);
 app.use('/login', loginRouter);
 app.use('/register', registerRouter);
 app.use('/refresh', refreshRouter);
-
-app.use(authMiddleware)
 
 app.use('/accessories', accessoriesRouter);
 app.use('/accessory-categories', accessoryCategoriesRouter);
