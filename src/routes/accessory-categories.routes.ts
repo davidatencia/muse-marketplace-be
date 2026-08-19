@@ -1,11 +1,12 @@
 import AccessoryCategoriesController from '@controllers/accessory-categories.controller.js';
+import authMiddleware from '@middlewares/auth.middleware.js';
 import { Router, json } from 'express';
 
 const accessoryCategoriesRouter = Router();
 
 accessoryCategoriesRouter.get('/', AccessoryCategoriesController.getAllCategories);
 
-accessoryCategoriesRouter.use(json());
+accessoryCategoriesRouter.use(json(), authMiddleware);
 
 accessoryCategoriesRouter.post('/', AccessoryCategoriesController.createCategory);
 accessoryCategoriesRouter.put('/:id', AccessoryCategoriesController.updateCategory);
