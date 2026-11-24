@@ -7,6 +7,7 @@ export const {
   RESEND_API_KEY,
   CONTACT_EMAIL_FROM,
   CONTACT_EMAIL_TO,
+  ACCEPTED_ORIGINS,
 } = process.env;
 
 export const DB_PORT = Number(process.env.DB_PORT) || 3306;

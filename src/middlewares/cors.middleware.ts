@@ -1,11 +1,11 @@
+import { ACCEPTED_ORIGINS } from '@configFile';
 import { Request, Response, NextFunction } from 'express';
 
-const ACCEPTED_ORIGINS = ['http://localhost:3000', 'http://localhost:5173', 'https://muse-accesories.netlify.app'];
 
 export default function corsMiddleware(req: Request, res: Response, next: NextFunction): void {
   const origin = req.headers.origin;
 
-  if (origin && ACCEPTED_ORIGINS.includes(origin)) {
+  if (origin && ACCEPTED_ORIGINS?.includes(origin)) {
     res.header('Access-Control-Allow-Origin', origin);
   }
 
