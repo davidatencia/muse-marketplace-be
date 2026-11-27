@@ -4,12 +4,12 @@ import { Router, json } from 'express';
 
 const accessoryCategoriesRouter = Router();
 
-accessoryCategoriesRouter.get('/', AccessoryCategoriesController.getAllCategories);
+accessoryCategoriesRouter.get('/', AccessoryCategoriesController.getAll);
 
 accessoryCategoriesRouter.use(json(), authMiddleware);
 
-accessoryCategoriesRouter.post('/', AccessoryCategoriesController.createCategory);
-accessoryCategoriesRouter.put('/:id', AccessoryCategoriesController.updateCategory);
-accessoryCategoriesRouter.delete('/:id', AccessoryCategoriesController.deleteCategory);
+accessoryCategoriesRouter.post('/', AccessoryCategoriesController.create);
+accessoryCategoriesRouter.put('/:id', AccessoryCategoriesController.update);
+accessoryCategoriesRouter.delete('/:id', AccessoryCategoriesController.delete);
 
 export default accessoryCategoriesRouter;

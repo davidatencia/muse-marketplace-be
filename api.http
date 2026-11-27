@@ -1,6 +1,5 @@
 ### Get all accessories
 http://localhost:3000/accessories
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQ1MDEwOTYwLTY5ZDAtMTFmMS04YWE3LTEzZDgwNThkYjZlOCIsIm5hbWUiOiJEYXZpZCBBdGVuY2lhIiwiZW1haWwiOiJkYXZpZGF0ZW5jaWEyMDAwQGdtYWlsLmNvbSIsImNyZWF0ZWRfYXQiOiIyMDI2LTA2LTE2VDIyOjExOjA1LjAwMFoiLCJ1cGRhdGVkX2F0IjoiMjAyNi0wNi0xNlQyMjoxMTowNS4wMDBaIiwiaXNfYWN0aXZlIjoxLCJpYXQiOjE3ODE3MTQyOTUsImV4cCI6MTc4MTcyMTQ5NX0.7CfN22VT6PfZkmPuTnzriZpAtknIyUgfrQ8u1Rd_Q0s
 
 
 ### Get a specific accessory
@@ -81,6 +80,7 @@ DELETE http://localhost:3000/accessory-categories/7
 
 ### get all accessory materials
 http://localhost:3000/accessory-materials
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQ1MDEwOTYwLTY5ZDAtMTFmMS04YWE3LTEzZDgwNThkYjZlOCIsIm5hbWUiOiJEYXZpZCBBdGVuY2lhIiwiZW1haWwiOiJkYXZpZGF0ZW5jaWEyMDAwQGdtYWlsLmNvbSIsImNyZWF0ZWRfYXQiOiIyMDI2LTA2LTE2VDIyOjExOjA1LjAwMFoiLCJ1cGRhdGVkX2F0IjoiMjAyNi0wOC0yMFQyMTozNTozNy4wMDBaIiwiaXNfYWN0aXZlIjoxLCJpYXQiOjE3OTU3NDk3NTcsImV4cCI6MTc5NTc1Njk1N30.c6rzlt84U6FKjepzIgCcL9O6N5uSDE4qd2Yvvx-6Wf4
 
 
 ### create a new accessory material
@@ -139,3 +139,35 @@ Content-Type: application/json
     "email": "jane@example.com",
     "message": "Hola, quisiera saber si tienen envíos a Cartagena."
   }
+
+### Promotions routes
+#### Get all promotions
+GET http://localhost:3000/promotions
+
+#### Create a new promotion
+POST http://localhost:3000/promotions
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQ1MDEwOTYwLTY5ZDAtMTFmMS04YWE3LTEzZDgwNThkYjZlOCIsIm5hbWUiOiJEYXZpZCBBdGVuY2lhIiwiZW1haWwiOiJkYXZpZGF0ZW5jaWEyMDAwQGdtYWlsLmNvbSIsImNyZWF0ZWRfYXQiOiIyMDI2LTA2LTE2VDIyOjExOjA1LjAwMFoiLCJ1cGRhdGVkX2F0IjoiMjAyNi0wOC0yMFQyMTozNTozNy4wMDBaIiwiaXNfYWN0aXZlIjoxLCJpYXQiOjE3OTU3NDk3NTcsImV4cCI6MTc5NTc1Njk1N30.c6rzlt84U6FKjepzIgCcL9O6N5uSDE4qd2Yvvx-6Wf4
+Content-Type: application/json
+  
+  {
+    "description": "Black Friday Sale",
+    "discount": 30,
+    "is_active": true
+  }
+
+
+#### Update an existing promotion
+PUT http://localhost:3000/promotions/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQ1MDEwOTYwLTY5ZDAtMTFmMS04YWE3LTEzZDgwNThkYjZlOCIsIm5hbWUiOiJEYXZpZCBBdGVuY2lhIiwiZW1haWwiOiJkYXZpZGF0ZW5jaWEyMDAwQGdtYWlsLmNvbSIsImNyZWF0ZWRfYXQiOiIyMDI2LTA2LTE2VDIyOjExOjA1LjAwMFoiLCJ1cGRhdGVkX2F0IjoiMjAyNi0wOC0yMFQyMTozNTozNy4wMDBaIiwiaXNfYWN0aXZlIjoxLCJpYXQiOjE3OTU3NDk3NTcsImV4cCI6MTc5NTc1Njk1N30.c6rzlt84U6FKjepzIgCcL9O6N5uSDE4qd2Yvvx-6Wf4
+Content-Type: application/json
+
+  {
+    "description": "Promoción de verano actualizada",
+    "discount": 25,
+    "is_active": false
+  }
+
+#### Delete an existing promotion
+DELETE http://localhost:3000/promotions/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQ1MDEwOTYwLTY5ZDAtMTFmMS04YWE3LTEzZDgwNThkYjZlOCIsIm5hbWUiOiJEYXZpZCBBdGVuY2lhIiwiZW1haWwiOiJkYXZpZGF0ZW5jaWEyMDAwQGdtYWlsLmNvbSIsImNyZWF0ZWRfYXQiOiIyMDI2LTA2LTE2VDIyOjExOjA1LjAwMFoiLCJ1cGRhdGVkX2F0IjoiMjAyNi0wOC0yMFQyMTozNTozNy4wMDBaIiwiaXNfYWN0aXZlIjoxLCJpYXQiOjE3OTU3NDk3NTcsImV4cCI6MTc5NTc1Njk1N30.c6rzlt84U6FKjepzIgCcL9O6N5uSDE4qd2Yvvx-6Wf4
+Content-Type: application/json

@@ -6,7 +6,7 @@ import dbConnection from '@config/db.js';
 
 interface UserRowDB extends UserRow, RowDataPacket {}
 
-export class UserModel {
+export default class UserModel {
   static async login(data: UserLogin): Promise<UserInformation | null> {
     const [rows] = await dbConnection.query<UserRowDB[]>(
       `SELECT

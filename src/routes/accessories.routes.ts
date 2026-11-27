@@ -4,14 +4,14 @@ import { Router, json } from 'express';
 
 const accessoriesRouter = Router();
 
-accessoriesRouter.get('/', AccessoriesController.getAllAccessories);
-accessoriesRouter.get('/:id', AccessoriesController.getAccessoryById);
+accessoriesRouter.get('/', AccessoriesController.getAll);
+accessoriesRouter.get('/:id', AccessoriesController.getById);
 
 accessoriesRouter.use(json(), authMiddleware);
 
-accessoriesRouter.post('/', AccessoriesController.createAccessory);
-accessoriesRouter.put('/:id', AccessoriesController.updateAccessory);
-accessoriesRouter.patch('/:id', AccessoriesController.updateAccessoryPartial);
-accessoriesRouter.delete('/:id', AccessoriesController.deleteAccessory);
+accessoriesRouter.post('/', AccessoriesController.create);
+accessoriesRouter.put('/:id', AccessoriesController.update);
+accessoriesRouter.patch('/:id', AccessoriesController.updatePartial);
+accessoriesRouter.delete('/:id', AccessoriesController.delete);
 
 export default accessoriesRouter;
