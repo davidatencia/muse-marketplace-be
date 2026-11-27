@@ -28,11 +28,12 @@ export default function authMiddleware(
 
   try {
     const user = AuthService.verifyToken(token);
-    req.user = user;
     if (!(user as UserInformation).is_active) {
       res.status(403).json({ message: 'Account is inactive' });
       return;
     }
+    
+    req.user = user;
     next();
   } catch (error) {
     if (error instanceof jwt.TokenExpiredError) {

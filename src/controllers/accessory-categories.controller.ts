@@ -3,7 +3,7 @@ import AccessoryCategoriesModel from '@models/accessory-categories.model.js';
 import { validateAccessoryCategoryData } from '@schemas/accessory-category.schema.js';
 
 export default class AccessoryCategoriesController {
-  static async getAllCategories(req: Request, res: Response): Promise<void> {
+  static async getAll(req: Request, res: Response): Promise<void> {
     try {
       res.json(await AccessoryCategoriesModel.getAll());
     } catch (error) {
@@ -14,7 +14,7 @@ export default class AccessoryCategoriesController {
     }
   }
 
-  static async createCategory(
+  static async create(
     { body: { name } }: Request,
     res: Response,
   ): Promise<void> {
@@ -38,7 +38,7 @@ export default class AccessoryCategoriesController {
     }
   }
 
-  static async updateCategory(
+  static async update(
     { params: { id }, body: { name } }: Request<{ id: string }>,
     res: Response,
   ): Promise<void> {
@@ -68,7 +68,7 @@ export default class AccessoryCategoriesController {
     }
   }
 
-  static async deleteCategory(
+  static async delete(
     { params: { id } }: Request<{ id: string }>,
     res: Response,
   ): Promise<void> {

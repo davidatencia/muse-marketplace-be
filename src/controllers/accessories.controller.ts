@@ -9,7 +9,7 @@ import {
 } from '@schemas/accessory.schema.js';
 
 export default class AccessoriesController {
-  static async getAllAccessories(_req: Request, res: Response): Promise<void> {
+  static async getAll(_req: Request, res: Response): Promise<void> {
     try {
       res.json(await AccessoryModel.getAll());
     } catch (error) {
@@ -20,7 +20,7 @@ export default class AccessoriesController {
     }
   }
 
-  static async getAccessoryById(
+  static async getById(
     { params: { id } }: Request<{ id: string }>,
     res: Response,
   ): Promise<void> {
@@ -39,7 +39,7 @@ export default class AccessoriesController {
     }
   }
 
-  static async createAccessory({ body }: Request, res: Response): Promise<void> {
+  static async create({ body }: Request, res: Response): Promise<void> {
     try {
       const { error } = validateAccessoriesArrayData(body);
 
@@ -72,7 +72,7 @@ export default class AccessoriesController {
     }
   }
 
-  static async updateAccessory(
+  static async update(
     { params: { id }, body }: Request<{ id: string }>,
     res: Response,
   ): Promise<void> {
@@ -98,7 +98,7 @@ export default class AccessoriesController {
     }
   }
 
-  static async updateAccessoryPartial(
+  static async updatePartial(
     { params: { id }, body }: Request<{ id: string }>,
     res: Response,
   ): Promise<void> {
@@ -121,7 +121,7 @@ export default class AccessoriesController {
     }
   }
 
-  static async deleteAccessory(
+  static async delete(
     { params: { id } }: Request<{ id: string }>,
     res: Response,
   ): Promise<void> {
